@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+.message-input {
+  margin-bottom: 2rem;
+  height: 2rem;
+}

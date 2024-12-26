@@ -6,18 +6,14 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, { cors: { origin: ['http://localhost:5173'] } });
 
+const list = []
+
 io.on("connection", (socket) => {
-  console.log("Socket ID ===> ", socket.id)
-
-  socket.on('disconnect', () => {
-    console.log('A user has disconnected', socket.id)
+  socket.on('message', (data) => {
+    list.push(data)
+    console.log(list)
+    io.emit('list-update', list)
   })
-
-  socket.on('connect', () => {
-    console.log('connected')
-  })
-
-  socket.on('user', () => console.log('user joined'))
 });
 
-httpServer.listen(3000, () => { console.log(`APP is listening to port 3000`) });
+httpServer.listen(3000, () => { console.log(`Server is listening on port 3000`) });
