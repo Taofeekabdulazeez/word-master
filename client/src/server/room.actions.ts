@@ -1,10 +1,11 @@
 "use server";
 import { wait } from "@/lib/utils";
+import { Room } from "@/types";
 import { redirect } from "next/navigation";
 
 const roomId = "97937wecbwc";
 
-export const fetchRoom = async (id: string) => {
+export const fetchRoom = async (id: string): Promise<Room> => {
   await wait(5000);
 
   return {

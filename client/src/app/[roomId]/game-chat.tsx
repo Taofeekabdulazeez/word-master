@@ -1,28 +1,33 @@
-import { Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { ChatMessage } from "./chat-message";
+import { Message, Room } from "@/types";
 
 type GameChatProps = {
-  room: {
-    id: string;
-    title: string;
-    players: { name: string; total_points: number }[];
-  };
+  room: Room;
+  messages: Message[];
 };
 
-export function GameChat({ room }: GameChatProps) {
+export function GameChat({ room, messages }: GameChatProps) {
   return (
     <div>
-      <Typography variant="body1" align="center">
+      <Typography variant="body1" align="center" fontSize={12}>
         You joined this game room
       </Typography>
-      <Typography variant="body2" align="center">
-        Welcome to {room.title}
-      </Typography>
-      <Typography align="center" color="textPrimary">
+      <Typography align="center" color="textPrimary" fontSize={10}>
         There are {room.players.length} in this room
       </Typography>
 
-      <ChatMessage message={{ text: "Hello" }} />
+      <Container
+        sx={{
+          display: "inline-flex",
+          flexDirection: "column",
+          gap: "6px",
+        }}
+      >
+        {messages.map((message, i) => {
+          return <ChatMessage key={i} message={message} />;
+        })}
+      </Container>
     </div>
   );
 }

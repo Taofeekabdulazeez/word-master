@@ -1,7 +1,20 @@
 import { Send } from "@mui/icons-material";
 import { Box, Button, TextField } from "@mui/material";
+import { useState } from "react";
 
-export function ChatBottom() {
+type ChatBottomProps = {
+  sendMessage: (text: string) => void;
+};
+
+export function ChatBottom({ sendMessage }: ChatBottomProps) {
+  const [text, setText] = useState("");
+
+  const handleSend = () => {
+    if (!text.trim()) return;
+    sendMessage(text);
+    setText("");
+  };
+
   return (
     <Box
       sx={{
@@ -14,8 +27,20 @@ export function ChatBottom() {
         width: "100%",
       }}
     >
-      <TextField sx={{}} size="small" />
-      <Button variant="contained" endIcon={<Send />}></Button>
+      <TextField
+        value={text}
+        onChange={(event) => setText(event.target.value)}
+        sx={{}}
+        size="small"
+        onKeyDown={(event) => {
+          if (event.key === "Enter") handleSend();
+        }}
+      />
+      <Button
+        onClick={handleSend}
+        variant="contained"
+        endIcon={<Send />}
+      ></Button>
     </Box>
   );
 }

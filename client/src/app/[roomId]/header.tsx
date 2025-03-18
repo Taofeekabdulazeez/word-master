@@ -1,14 +1,15 @@
+import { Room } from "@/types";
 import { Container, Typography } from "@mui/material";
 
 type HeaderProps = {
-  title: string;
+  room: Room;
 };
 
-export function Header({ title }: HeaderProps) {
+export function Header({ room }: HeaderProps) {
   return (
     <Container sx={{ padding: "20px" }}>
       <Typography variant="h6" align="center">
-        {title}
+        {room.title}
       </Typography>
     </Container>
   );

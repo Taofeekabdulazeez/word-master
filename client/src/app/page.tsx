@@ -1,11 +1,12 @@
 "use client";
 import { Button, TextField, Typography } from "@mui/material";
 import ModeSwitch from "@/components/mode-switch";
-import { startTransition, useActionState, useState } from "react";
+import { startTransition, useActionState } from "react";
 import { findAvailableRoom } from "@/server/room.actions";
+import { usePlayerStore } from "@/store/usePlayerStore";
 
 export default function Home() {
-  const [name, setName] = useState("");
+  const { name, setName } = usePlayerStore();
   const [response, action, isPending] = useActionState(
     findAvailableRoom,
     undefined
