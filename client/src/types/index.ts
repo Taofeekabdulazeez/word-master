@@ -19,6 +19,8 @@ export type PageProps = {
 export type Message = {
   text: string;
   sender: string;
+  isGuessed: boolean;
+  isAnagram: boolean;
 };
 
 export type Player = {

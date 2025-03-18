@@ -21,7 +21,7 @@ export function GameChat({ room, messages }: GameChatProps) {
         sx={{
           display: "inline-flex",
           flexDirection: "column",
-          gap: "6px",
+          gap: "8px",
         }}
       >
         {messages.map((message, i) => {
