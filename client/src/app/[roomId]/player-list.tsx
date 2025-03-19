@@ -6,7 +6,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import { Badge, styled } from "@mui/material";
+import { Badge, Box, styled } from "@mui/material";
 import {
   brown,
   deepOrange,
@@ -59,31 +59,33 @@ type PlayerListProps = {
 
 export default function PlayerList({ players }: PlayerListProps) {
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-      {players.map((player, i) => {
-        return (
-          <ListItem key={i}>
-            <ListItemAvatar>
-              <StyledBadge
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                variant="dot"
-              >
-                <Avatar
-                  sx={{ bgcolor: colors.get(i), textTransform: "uppercase" }}
+    <Box sx={{ overflow: "auto", maxHeight: "100vh" }}>
+      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+        {players.map((player, i) => {
+          return (
+            <ListItem key={i}>
+              <ListItemAvatar>
+                <StyledBadge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  variant="dot"
                 >
-                  {player.name.substring(0, 2)}
-                </Avatar>
-              </StyledBadge>
-            </ListItemAvatar>
-            <ListItemText
-              primary={player.name}
-              secondary={player.total_points + " points"}
-              color={yellow[900]}
-            />
-          </ListItem>
-        );
-      })}
-    </List>
+                  <Avatar
+                    sx={{ bgcolor: colors.get(i), textTransform: "uppercase" }}
+                  >
+                    {player.name.substring(0, 2)}
+                  </Avatar>
+                </StyledBadge>
+              </ListItemAvatar>
+              <ListItemText
+                primary={player.name}
+                secondary={player.total_points + " points"}
+                color={yellow[900]}
+              />
+            </ListItem>
+          );
+        })}
+      </List>
+    </Box>
   );
 }

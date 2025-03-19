@@ -6,6 +6,8 @@ import { Box } from "@mui/material";
 import { useRoomMessagesStore } from "@/store/useRoomMessagesStore";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { Room } from "@/types";
+import { useRoomChatStore } from "@/store/useRoomChatStore";
+import { useEffect } from "react";
 
 type MainProps = {
   room: Room;
@@ -14,6 +16,14 @@ type MainProps = {
 export function Main({ room }: MainProps) {
   const sendMessage = usePlayerStore((state) => state.sendMessage);
   const messages = useRoomMessagesStore((state) => state.messages);
+  const socket = useRoomChatStore((state) => state.socket);
+  const connectSocket = useRoomChatStore((state) => state.connectSocket);
+
+  useEffect(() => {
+    if (!socket) {
+      connectSocket();
+    }
+  }, [socket, connectSocket]);
 
   return (
     <Box sx={{ position: "relative" }}>

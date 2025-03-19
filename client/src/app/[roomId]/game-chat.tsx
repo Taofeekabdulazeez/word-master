@@ -1,22 +1,51 @@
-import { Container, Typography } from "@mui/material";
+"use client";
+
+import { Container, Paper, Typography } from "@mui/material";
 import { ChatMessage } from "./chat-message";
 import { Message, Room } from "@/types";
+import { useRoomChatStore } from "@/store/useRoomChatStore";
+import { useEffect, useRef } from "react";
+import { useRoomMessagesStore } from "@/store/useRoomMessagesStore";
 
 type GameChatProps = {
   room: Room;
   messages: Message[];
 };
 
-export function GameChat({ room, messages }: GameChatProps) {
+export function GameChat({ messages }: GameChatProps) {
+  const socket = useRoomChatStore((state) => state.socket);
+  const sendMessage = useRoomMessagesStore((state) => state.sendMessage);
+
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    console.log(socket);
+    socket?.on("round/started", (response) => sendMessage(response));
+
+    return () => {
+      socket?.off("round/started");
+    };
+  }, [socket, sendMessage]);
+
   return (
-    <div>
+    <Paper
+      ref={messagesContainerRef}
+      style={{
+        height: "calc(90vh - 60px)",
+        overflowY: "auto",
+        paddingBlock: "10px",
+      }}
+    >
       <Typography variant="body1" align="center" fontSize={12}>
         You joined this game room
       </Typography>
-      <Typography align="center" color="textPrimary" fontSize={10}>
-        There are {room.players.length} in this room
-      </Typography>
-
       <Container
         sx={{
           display: "inline-flex",
@@ -28,6 +57,6 @@ export function GameChat({ room, messages }: GameChatProps) {
           return <ChatMessage key={i} message={message} />;
         })}
       </Container>
-    </div>
+    </Paper>
   );
 }

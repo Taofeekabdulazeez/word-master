@@ -23,11 +23,16 @@ export const fetchRoom = async (id: string): Promise<Room> => {
 };
 
 export const findAvailableRoom = async () => {
-  await wait(3000);
+  try {
+    await wait(3000);
+
+    return { success: true };
+  } catch {
+  } finally {
+    redirect(`/${roomId}`);
+  }
 
   // return {
   //   id: roomId,
   // };
-
-  return redirect(`/${roomId}`);
 };

@@ -8,7 +8,7 @@ export default async function Page({ params }: PageProps) {
   const room = await fetchRoom(roomId);
 
   return (
-    <div className="grid grid-cols-[1fr_4fr] h-screen">
+    <div className="grid grid-cols-[1.3fr_4fr] h-screen overflow-y-hidden">
       <SideBar players={room.players} />
       <Main room={room} />
     </div>

@@ -22,12 +22,13 @@ export function ChatMessage({ message }: ChatMessageProps) {
       </Avatar>
       <Box
         sx={{
-          borderRadius: "13px",
+          borderRadius: "9px",
           display: "inline",
           width: "fit-content",
-          px: "12px",
-          py: "6px",
+          px: "10px",
+          py: "5px",
         }}
+        fontSize="small"
         bgcolor={blue[500]}
       >
         {message.text}

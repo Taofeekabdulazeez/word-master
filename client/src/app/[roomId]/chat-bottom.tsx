@@ -18,20 +18,20 @@ export function ChatBottom({ sendMessage }: ChatBottomProps) {
   return (
     <Box
       sx={{
-        position: "absolute",
         bottom: 0,
         left: 0,
-        py: "30px",
         display: "grid",
         gridTemplateColumns: "1fr auto",
-        width: "100%",
+        zIndex: "90",
       }}
     >
       <TextField
         value={text}
         onChange={(event) => setText(event.target.value)}
-        sx={{}}
+        placeholder="Type a word here"
+        autoComplete="off"
         size="small"
+        variant="filled"
         onKeyDown={(event) => {
           if (event.key === "Enter") handleSend();
         }}

@@ -7,7 +7,7 @@ type HeaderProps = {
 
 export function Header({ room }: HeaderProps) {
   return (
-    <Container sx={{ padding: "20px" }}>
+    <Container sx={{ height: "10vh" }}>
       <Typography variant="h6" align="center">
         {room.title}
       </Typography>
