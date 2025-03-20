@@ -15,7 +15,7 @@ export class TasksService {
   @Cron('*/1 * * * * *', { name: 'startGame' })
   public startTask() {
     if (this.timer === 0) {
-      this.timer = 10;
+      this.timer = 20;
       this.roomGateway.broadCastRoundStarted();
     } else {
       this.timer--;

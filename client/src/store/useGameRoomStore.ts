@@ -1,19 +1,22 @@
 import { io, Socket } from "socket.io-client";
 import { create } from "zustand";
 import { usePlayerStore } from "./usePlayerStore";
+import { IRoom } from "@/interfaces";
 
-const BASE_URL = "http://localhost:3000/room";
+const BASE_URL = "http://localhost:8000/room";
 
-export interface RoomChatStore {
+export interface GameRoomStore {
   socket: Socket;
-  subscribeToMessages: () => void;
   connectSocket: () => void;
+  room: IRoom;
+  setIntializeRoom: (room: IRoom) => void;
 }
 
-export const useRoomChatStore = create<RoomChatStore>((set, get) => ({
+export const useGameRoomStore = create<GameRoomStore>((set, get) => ({
   socket: null!,
+  room: null!,
 
-  subscribeToMessages: () => {},
+  setIntializeRoom: (room: IRoom) => set({ room: room }),
 
   connectSocket: () => {
     const socket = io(`${BASE_URL}`, {

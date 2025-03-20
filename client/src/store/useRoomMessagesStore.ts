@@ -1,50 +1,74 @@
-import { Message } from "@/types";
+import {
+  IBotMessage,
+  INotificationMessage,
+  IPlayerMessage,
+  IRoomMessage,
+} from "@/interfaces";
 import { create } from "zustand";
 import { usePlayerStore } from "./usePlayerStore";
+import { useGameRoomStore } from "./useGameRoomStore";
 
 interface RoomMessagesState {
-  messages: Message[];
+  messages: IRoomMessage[];
 }
 
 interface RoomMessagesActions {
-  sendMessage: (text: string) => void;
+  sendPlayerMessage: (
+    text: string,
+    type?: "bot" | "word" | "notification"
+  ) => void;
+  addMessage?: (text: string, type?: "bot" | "word" | "notification") => void;
+  addBotMessage: (text: string) => void;
+  addNotificationMessage: (text: string) => void;
+  addPlayerMessage: (message: IPlayerMessage) => void;
   clearAllMessages?: () => void;
 }
 
 interface RoomMessagesStore extends RoomMessagesState, RoomMessagesActions {}
 
 export const useRoomMessagesStore = create<RoomMessagesStore>((set, get) => ({
-  messages: [
-    { text: "master", sender: "Scott", isGuessed: false, isAnagram: true },
-    { text: "stream", sender: "Scott", isGuessed: true, isAnagram: true },
-    { text: "maters", sender: "Scott", isGuessed: false, isAnagram: false },
-    { text: "armest", sender: "Scott", isGuessed: true, isAnagram: false },
-    { text: "tamers", sender: "Scott", isGuessed: false, isAnagram: true },
-    { text: "teamsr", sender: "Scott", isGuessed: false, isAnagram: false },
-    { text: "stearm", sender: "Scott", isGuessed: true, isAnagram: true },
-    { text: "resmat", sender: "Scott", isGuessed: false, isAnagram: false },
-    { text: "reamst", sender: "Scott", isGuessed: true, isAnagram: true },
-    { text: "mars", sender: "Scott", isGuessed: false, isAnagram: false },
-    { text: "stream", sender: "Scott", isGuessed: false, isAnagram: true },
-    { text: "mastery", sender: "Scott", isGuessed: false, isAnagram: false },
-    { text: "armset", sender: "Scott", isGuessed: true, isAnagram: true },
-    { text: "terams", sender: "Scott", isGuessed: false, isAnagram: true },
-    { text: "tsamer", sender: "Scott", isGuessed: false, isAnagram: true },
-    { text: "marker", sender: "Scott", isGuessed: true, isAnagram: false },
-    { text: "asterm", sender: "Scott", isGuessed: false, isAnagram: true },
-    { text: "smart", sender: "Scott", isGuessed: true, isAnagram: false },
-    { text: "remast", sender: "Scott", isGuessed: false, isAnagram: true },
-    { text: "masters", sender: "Scott", isGuessed: false, isAnagram: false },
-  ],
+  messages: [],
 
-  sendMessage: (text: string) => {
-    const sender = usePlayerStore.getState().name;
-    const newMessage: Message = {
+  sendPlayerMessage: (text: string) => {
+    const newMessage: IPlayerMessage = {
+      type: "player",
       text,
-      sender,
+      sender: usePlayerStore.getState().name,
       isGuessed: false,
       isAnagram: true,
     };
-    set({ messages: [...get().messages, newMessage] });
+
+    const prevMessages = get().messages;
+    if (prevMessages.length > 20)
+      set({ messages: [...prevMessages.slice(1), newMessage] });
+    else set({ messages: [...prevMessages, newMessage] });
+
+    useGameRoomStore.getState().socket?.emit("player/message", newMessage);
+  },
+
+  addBotMessage: (text: string) => {
+    const botMessage: IBotMessage = {
+      type: "bot",
+      text,
+    };
+    const prevMessages = get().messages;
+    if (prevMessages.length > 20)
+      set({ messages: [...prevMessages.slice(1), botMessage] });
+    else set({ messages: [...prevMessages, botMessage] });
+  },
+
+  addNotificationMessage: (text: string) => {
+    const notificationMessage: INotificationMessage = {
+      type: "notification",
+      text,
+    };
+    set({ messages: [...get().messages, notificationMessage] });
+  },
+
+  addPlayerMessage: (message: IPlayerMessage) => {
+    const prevMessages = get().messages;
+    if (prevMessages.length > 20)
+      set({ messages: [...prevMessages.slice(1), message] });
+    else set({ messages: [...prevMessages, message] });
   },
 }));

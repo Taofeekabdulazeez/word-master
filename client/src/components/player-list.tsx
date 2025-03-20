@@ -15,6 +15,7 @@ import {
   indigo,
   yellow,
 } from "@mui/material/colors";
+import { usePlayersStore } from "@/store/usePlayersStore";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -53,11 +54,10 @@ const colors = new Map()
   .set(4, indigo[500])
   .set(5, yellow[500]);
 
-type PlayerListProps = {
-  players: { name: string; total_points: number }[];
-};
+export default function PlayerList() {
+  const players = usePlayersStore((state) => state.players);
+  console.log(players);
 
-export default function PlayerList({ players }: PlayerListProps) {
   return (
     <Box sx={{ overflow: "auto", maxHeight: "100vh" }}>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>

@@ -23,7 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <ThemeProvider theme={theme}>
-        <body className={`${roboto.className} antialiased`}>{children}</body>
+        <body
+          suppressHydrationWarning
+          className={`${roboto.className} antialiased`}
+        >
+          {children}
+        </body>
       </ThemeProvider>
     </html>
   );

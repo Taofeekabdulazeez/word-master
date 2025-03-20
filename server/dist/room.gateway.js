@@ -14,7 +14,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoomGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
+const players_service_1 = require("./players.service");
 let RoomGateway = class RoomGateway {
+    constructor(playersService) {
+        this.playersService = playersService;
+    }
     broadCastRoundStarted() {
         this.server.emit('round/started', 'round has started');
         console.log('round has started');
@@ -30,19 +34,30 @@ let RoomGateway = class RoomGateway {
     broadCastTimer(time) {
         this.server.emit('round/timer', `You have ${time} secs left`);
     }
-    handleConnection(client) {
+    handleMessage(client, message) {
         const player = client.handshake.query?.['player'] ||
             `player${client.id.substring(0, 5)}`;
-        const message = `Client: ${player} has joined the room`;
+        const msg = `${player}: ${message.text}`;
+        console.log(msg);
+        client.broadcast.emit('player/message', message);
+    }
+    handleConnection(client) {
+        const player = client.handshake.query?.['player'];
+        const message = `${player} has joined the room`;
         console.log(message);
         this.server.emit('player/joined', message);
+        this.playersService.addPlayer(player);
+        const players = this.playersService.getPlayers();
+        this.server.emit('players/update', players);
     }
     handleDisconnect(client) {
-        const player = client.handshake.query?.['player'] ||
-            `player${client.id.substring(0, 5)}`;
-        const message = `Client: ${player} has left the room`;
+        const player = client.handshake.query?.['player'];
+        const message = `${player} has left the room`;
         console.log(message);
         this.server.emit('player/left', message);
+        this.playersService.deletePlayer(player);
+        const players = this.playersService.getPlayers();
+        this.server.emit('players/update', players);
     }
 };
 exports.RoomGateway = RoomGateway;
@@ -50,6 +65,14 @@ __decorate([
     (0, websockets_1.WebSocketServer)(),
     __metadata("design:type", Function)
 ], RoomGateway.prototype, "server", void 0);
+__decorate([
+    (0, websockets_1.SubscribeMessage)('player/message'),
+    __param(0, (0, websockets_1.ConnectedSocket)()),
+    __param(1, (0, websockets_1.MessageBody)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Function, Object]),
+    __metadata("design:returntype", void 0)
+], RoomGateway.prototype, "handleMessage", null);
 __decorate([
     __param(0, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),
@@ -63,6 +86,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], RoomGateway.prototype, "handleDisconnect", null);
 exports.RoomGateway = RoomGateway = __decorate([
-    (0, websockets_1.WebSocketGateway)({ namespace: 'room', cors: { origin: '*' } })
+    (0, websockets_1.WebSocketGateway)({ namespace: 'room', cors: { origin: '*' } }),
+    __metadata("design:paramtypes", [players_service_1.PlayersService])
 ], RoomGateway);
 //# sourceMappingURL=room.gateway.js.map

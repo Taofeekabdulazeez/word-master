@@ -13,6 +13,7 @@ const app_service_1 = require("./app.service");
 const schedule_1 = require("@nestjs/schedule");
 const tasks_service_1 = require("./tasks.service");
 const room_gateway_1 = require("./room.gateway");
+const players_service_1 = require("./players.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -20,7 +21,7 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [schedule_1.ScheduleModule.forRoot()],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService, tasks_service_1.TasksService, room_gateway_1.RoomGateway],
+        providers: [app_service_1.AppService, tasks_service_1.TasksService, room_gateway_1.RoomGateway, players_service_1.PlayersService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

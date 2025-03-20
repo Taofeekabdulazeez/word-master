@@ -4,10 +4,11 @@ import { AppService } from './app.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksService } from './tasks.service';
 import { RoomGateway } from './room.gateway';
+import { PlayersService } from './players.service';
 
 @Module({
   imports: [ScheduleModule.forRoot()],
   controllers: [AppController],
-  providers: [AppService, TasksService, RoomGateway],
+  providers: [AppService, TasksService, RoomGateway, PlayersService],
 })
 export class AppModule {}

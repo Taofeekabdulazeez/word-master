@@ -1,11 +1,11 @@
-import { Room } from "@/types";
+import { IRoom } from "@/interfaces";
 import { Container, Typography } from "@mui/material";
 
-type HeaderProps = {
-  room: Room;
+type GameRoomHeaderProps = {
+  room: IRoom;
 };
 
-export function Header({ room }: HeaderProps) {
+export function GameRoomHeader({ room }: GameRoomHeaderProps) {
   return (
     <Container sx={{ height: "10vh" }}>
       <Typography variant="h6" align="center">

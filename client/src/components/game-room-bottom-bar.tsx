@@ -1,13 +1,11 @@
+import { usePlayerStore } from "@/store/usePlayerStore";
 import { Send } from "@mui/icons-material";
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
 
-type ChatBottomProps = {
-  sendMessage: (text: string) => void;
-};
-
-export function ChatBottom({ sendMessage }: ChatBottomProps) {
+export function GameRoomBottomBar() {
   const [text, setText] = useState("");
+  const sendMessage = usePlayerStore((state) => state.sendMessage);
 
   const handleSend = () => {
     if (!text.trim()) return;

@@ -21,7 +21,7 @@ let TasksService = class TasksService {
     }
     startTask() {
         if (this.timer === 0) {
-            this.timer = 10;
+            this.timer = 20;
             this.roomGateway.broadCastRoundStarted();
         }
         else {
