@@ -7,14 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { Badge, Box, styled } from "@mui/material";
-import {
-  brown,
-  deepOrange,
-  deepPurple,
-  green,
-  indigo,
-  yellow,
-} from "@mui/material/colors";
+import { brown, deepPurple, green, indigo, yellow } from "@mui/material/colors";
 import { usePlayersStore } from "@/store/usePlayersStore";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -46,8 +39,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const colors = new Map()
-  .set(0, deepOrange[500])
   .set(1, deepPurple[500])
   .set(2, brown[500])
   .set(3, green[500])
@@ -56,12 +49,12 @@ const colors = new Map()
 
 export default function PlayerList() {
   const players = usePlayersStore((state) => state.players);
-  console.log(players);
+  const sortedPlayers = players.sort((a, b) => b.total_points - a.total_points);
 
   return (
     <Box sx={{ overflow: "auto", maxHeight: "100vh" }}>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        {players.map((player, i) => {
+        {sortedPlayers.map((player, i) => {
           return (
             <ListItem key={i}>
               <ListItemAvatar>
@@ -71,7 +64,7 @@ export default function PlayerList() {
                   variant="dot"
                 >
                   <Avatar
-                    sx={{ bgcolor: colors.get(i), textTransform: "uppercase" }}
+                    sx={{ bgcolor: player.color, textTransform: "uppercase" }}
                   >
                     {player.name.substring(0, 2)}
                   </Avatar>

@@ -14,7 +14,6 @@ export function GameRoomHydration({
   initialData,
   children,
 }: GameRoomHydrationProps) {
-  console.log(initialData);
   useEffect(() => {
     useGameRoomStore.setState({ room: initialData });
     usePlayersStore.setState({ players: initialData.players });

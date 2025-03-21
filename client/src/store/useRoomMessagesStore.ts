@@ -7,6 +7,7 @@ import {
 import { create } from "zustand";
 import { usePlayerStore } from "./usePlayerStore";
 import { useGameRoomStore } from "./useGameRoomStore";
+import { nanoid } from "nanoid";
 
 interface RoomMessagesState {
   messages: IRoomMessage[];
@@ -31,11 +32,13 @@ export const useRoomMessagesStore = create<RoomMessagesStore>((set, get) => ({
 
   sendPlayerMessage: (text: string) => {
     const newMessage: IPlayerMessage = {
+      id: nanoid(8),
       type: "player",
       text,
       sender: usePlayerStore.getState().name,
       isGuessed: false,
       isAnagram: true,
+      color: usePlayerStore.getState().color,
     };
 
     const prevMessages = get().messages;

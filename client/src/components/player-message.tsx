@@ -1,9 +1,7 @@
 "use client";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { IPlayerMessage } from "@/interfaces";
-import { Check, Close } from "@mui/icons-material";
 import { Avatar, Box, Typography } from "@mui/material";
-import { green, pink, teal } from "@mui/material/colors";
 
 type PlayerMessageProps = {
   message: IPlayerMessage;
@@ -11,12 +9,13 @@ type PlayerMessageProps = {
 
 export function PlayerMessage({ message }: PlayerMessageProps) {
   const player = usePlayerStore((state) => state.name);
+
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Avatar
           sx={{
-            bgcolor: teal[500],
+            bgcolor: message.color,
             width: "30px",
             height: "30px",
           }}
@@ -42,11 +41,11 @@ export function PlayerMessage({ message }: PlayerMessageProps) {
                 py: "4px",
               }}
               fontSize="small"
-              bgcolor={teal[500]}
+              bgcolor={message.color}
             >
               {message.text}
             </Box>
-            {message.isAnagram && (
+            {/* {message.isAnagram && (
               <Typography
                 fontSize="small"
                 sx={{ display: "flex", alignItems: "center", gap: 0.3 }}
@@ -61,9 +60,9 @@ export function PlayerMessage({ message }: PlayerMessageProps) {
                   ? "This word has been guessed"
                   : `${
                       message.sender === player ? "You" : message.sender
-                    } won 4 points`}
+                    } won +${Math.round(message.text.length / 2)} points`}
               </Typography>
-            )}
+            )} */}
           </Box>
         </Box>
       </Box>

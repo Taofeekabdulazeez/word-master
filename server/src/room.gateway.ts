@@ -45,20 +45,24 @@ export class RoomGateway
     @ConnectedSocket() client: Socket,
     @MessageBody() message: any,
   ) {
-    const player =
-      client.handshake.query?.['player'] ||
-      `player${client.id.substring(0, 5)}`;
-    const msg = `${player}: ${message.text}`;
-    console.log(msg);
-    client.broadcast.emit('player/message', message); // Emit to all clients except the sender
+    const player = client.handshake.query?.['player'] as string;
+    client.broadcast.emit('player/message', message);
+
+    this.playersService.updatePlayerPoints(
+      player,
+      Math.round(message.text.length / 2),
+    );
+
+    const players = this.playersService.getPlayers();
+    this.server.emit('players/update', players);
   }
 
   handleConnection(@ConnectedSocket() client: Socket) {
     const player = client.handshake.query?.['player'] as string;
+    const color = client.handshake.query?.['color'] as string;
     const message = `${player} has joined the room`;
-    console.log(message);
     this.server.emit('player/joined', message);
-    this.playersService.addPlayer(player);
+    this.playersService.addPlayer({ name: player, color });
 
     const players = this.playersService.getPlayers();
     this.server.emit('players/update', players);

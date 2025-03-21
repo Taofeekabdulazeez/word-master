@@ -22,6 +22,7 @@ export const useGameRoomStore = create<GameRoomStore>((set, get) => ({
     const socket = io(`${BASE_URL}`, {
       query: {
         player: usePlayerStore.getState().name,
+        color: usePlayerStore.getState().color,
       },
     });
 

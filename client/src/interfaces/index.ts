@@ -3,6 +3,7 @@
 export interface IPlayer {
   name: string;
   total_points: number;
+  color: string;
 }
 
 export interface IRoom {
@@ -21,9 +22,11 @@ export interface IBotMessage extends IMessage {}
 export interface INotificationMessage extends IMessage {}
 
 export interface IPlayerMessage extends IMessage {
+  id: string;
   sender: string;
   isGuessed: boolean;
   isAnagram: boolean;
+  color: string;
 }
 
 export type IRoomMessage = IPlayerMessage | IBotMessage | INotificationMessage;

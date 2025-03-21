@@ -35,18 +35,18 @@ let RoomGateway = class RoomGateway {
         this.server.emit('round/timer', `You have ${time} secs left`);
     }
     handleMessage(client, message) {
-        const player = client.handshake.query?.['player'] ||
-            `player${client.id.substring(0, 5)}`;
-        const msg = `${player}: ${message.text}`;
-        console.log(msg);
+        const player = client.handshake.query?.['player'];
         client.broadcast.emit('player/message', message);
+        this.playersService.updatePlayerPoints(player, Math.round(message.text.length / 2));
+        const players = this.playersService.getPlayers();
+        this.server.emit('players/update', players);
     }
     handleConnection(client) {
         const player = client.handshake.query?.['player'];
+        const color = client.handshake.query?.['color'];
         const message = `${player} has joined the room`;
-        console.log(message);
         this.server.emit('player/joined', message);
-        this.playersService.addPlayer(player);
+        this.playersService.addPlayer({ name: player, color });
         const players = this.playersService.getPlayers();
         this.server.emit('players/update', players);
     }
