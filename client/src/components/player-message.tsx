@@ -1,5 +1,5 @@
 "use client";
-import { usePlayerStore } from "@/store/usePlayerStore";
+// import { usePlayerStore } from "@/store/usePlayerStore";
 import { IPlayerMessage } from "@/interfaces";
 import { Avatar, Box, Typography } from "@mui/material";
 
@@ -8,7 +8,7 @@ type PlayerMessageProps = {
 };
 
 export function PlayerMessage({ message }: PlayerMessageProps) {
-  const player = usePlayerStore((state) => state.name);
+  // const player = usePlayerStore((state) => state.name);
 
   return (
     <>
@@ -29,7 +29,7 @@ export function PlayerMessage({ message }: PlayerMessageProps) {
             sx={{ display: "block" }}
           >
             {message.sender}
-            {message.sender === player ? " (You)" : null}
+            {/* {message.sender === player ? " (You)" : null} */}
           </Typography>
           <Box sx={{ display: "flex", gap: 1 }}>
             <Box

@@ -5,8 +5,12 @@ export declare class RoomGateway implements OnGatewayConnection<Socket>, OnGatew
     private readonly playersService;
     constructor(playersService: PlayersService);
     private readonly server;
-    broadCastRoundStarted(): void;
+    broadCastRoundStarted({ words }: {
+        words: string;
+    }): void;
     broadCastRoundEnded(): void;
+    broadCastRoundWords(message: string): void;
+    broadCastRoundTimer(time: number): void;
     notifyNextRound(): void;
     broadCastTimer(time: number): void;
     handleMessage(client: Socket, message: any): void;

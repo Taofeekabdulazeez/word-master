@@ -18,14 +18,23 @@ export class RoomGateway
 
   @WebSocketServer() private readonly server: Server;
 
-  public broadCastRoundStarted() {
-    this.server.emit('round/started', 'round has started');
+  public broadCastRoundStarted({ words }: { words: string }) {
+    this.server.emit('round/started', { words });
     console.log('round has started');
   }
 
   public broadCastRoundEnded() {
     this.server.emit('round/ended', 'round has ended');
     console.log('round has ended');
+  }
+
+  public broadCastRoundWords(message: string) {
+    this.server.emit('round/ended', message);
+    console.log(message);
+  }
+
+  public broadCastRoundTimer(time: number) {
+    this.server.emit('round/timer', time);
   }
 
   public notifyNextRound() {
@@ -73,7 +82,8 @@ export class RoomGateway
     const message = `${player} has left the room`;
     console.log(message);
     this.server.emit('player/left', message);
-    this.playersService.deletePlayer(player);
+    // this.playersService.deletePlayer(player);
+    this.playersService.makePlayerInActive(player);
 
     const players = this.playersService.getPlayers();
     this.server.emit('players/update', players);

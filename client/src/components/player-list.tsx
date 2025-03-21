@@ -49,7 +49,10 @@ const colors = new Map()
 
 export default function PlayerList() {
   const players = usePlayersStore((state) => state.players);
-  const sortedPlayers = players.sort((a, b) => b.total_points - a.total_points);
+  const sortedPlayers = React.useMemo(
+    () => players.sort((a, b) => b.total_points - a.total_points),
+    [players]
+  );
 
   return (
     <Box sx={{ overflow: "auto", maxHeight: "100vh" }}>
@@ -61,7 +64,7 @@ export default function PlayerList() {
                 <StyledBadge
                   overlap="circular"
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                  variant="dot"
+                  variant={player.isActive ? "dot" : "standard"}
                 >
                   <Avatar
                     sx={{ bgcolor: player.color, textTransform: "uppercase" }}

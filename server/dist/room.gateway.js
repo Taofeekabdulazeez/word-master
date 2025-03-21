@@ -19,13 +19,20 @@ let RoomGateway = class RoomGateway {
     constructor(playersService) {
         this.playersService = playersService;
     }
-    broadCastRoundStarted() {
-        this.server.emit('round/started', 'round has started');
+    broadCastRoundStarted({ words }) {
+        this.server.emit('round/started', { words });
         console.log('round has started');
     }
     broadCastRoundEnded() {
         this.server.emit('round/ended', 'round has ended');
         console.log('round has ended');
+    }
+    broadCastRoundWords(message) {
+        this.server.emit('round/ended', message);
+        console.log(message);
+    }
+    broadCastRoundTimer(time) {
+        this.server.emit('round/timer', time);
     }
     notifyNextRound() {
         this.server.emit('round/pending', 'The next round will begin in 30 seconds');
@@ -55,7 +62,7 @@ let RoomGateway = class RoomGateway {
         const message = `${player} has left the room`;
         console.log(message);
         this.server.emit('player/left', message);
-        this.playersService.deletePlayer(player);
+        this.playersService.makePlayerInActive(player);
         const players = this.playersService.getPlayers();
         this.server.emit('players/update', players);
     }

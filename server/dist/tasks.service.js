@@ -17,16 +17,23 @@ let TasksService = class TasksService {
     constructor(roomGateway, schedulerRegistry) {
         this.roomGateway = roomGateway;
         this.schedulerRegistry = schedulerRegistry;
-        this.timer = 60;
+        this.timer = 20;
+        this.wordsGame = 'master painters';
     }
     startTask() {
         if (this.timer === 0) {
-            this.timer = 60;
-            this.roomGateway.broadCastRoundStarted();
+            this.timer = 20;
+            this.roomGateway.broadCastRoundStarted({ words: this.wordsGame });
         }
         else {
             this.timer--;
+            this.roomGateway.broadCastRoundTimer(this.timer);
         }
+    }
+    notifyRoundWords() {
+        this.roomGateway.broadCastRoundWords(this.wordsGame);
+        const gameJob = this.schedulerRegistry.getCronJob('startGame');
+        console.log(gameJob.lastExecution);
     }
 };
 exports.TasksService = TasksService;
@@ -36,6 +43,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], TasksService.prototype, "startTask", null);
+__decorate([
+    (0, schedule_1.Cron)('*/5 * * * * *', { name: 'word-bot', disabled: true }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], TasksService.prototype, "notifyRoundWords", null);
 exports.TasksService = TasksService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [room_gateway_1.RoomGateway,

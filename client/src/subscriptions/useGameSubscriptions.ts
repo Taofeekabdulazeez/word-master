@@ -3,6 +3,7 @@ import { useGameRoomStore } from "@/store/useGameRoomStore";
 import { IPlayerMessage } from "@/interfaces";
 import { GameEvent } from "@/enums";
 import { useGameActions } from "@/hooks/useGameActions";
+import { useGameRoundStore } from "@/store/useGameRoundStore";
 
 export function useGameSubscriptions() {
   const socket = useGameRoomStore((state) => state.socket);
@@ -12,11 +13,22 @@ export function useGameSubscriptions() {
     addPlayerMessage,
     setPlayers,
   } = useGameActions();
+  const setWords = useGameRoundStore((state) => state.setWords);
+  const setTimer = useGameRoundStore((state) => state.setTimer);
 
   useSocketSubscription({
     socket,
     event: GameEvent.ROUND_STARTED,
-    onEmitted: addBotMessage,
+    onEmitted: (response) => {
+      setWords(response.words);
+      addBotMessage("Round has started");
+    },
+  });
+
+  useSocketSubscription({
+    socket,
+    event: GameEvent.ROUND_TIMER,
+    onEmitted: setTimer,
   });
 
   useSocketSubscription({

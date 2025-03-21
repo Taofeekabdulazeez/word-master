@@ -10,16 +10,30 @@ export class PlayersService {
   }
 
   public addPlayer({ name, color }: { name: string; color: string }): void {
-    if (this.players.has(name)) return;
+    if (this.players.has(name)) {
+      this.makePlayerActive(name);
+      return;
+    }
     this.players.set(name, {
       name,
       total_points: 0,
       color,
+      isActive: true,
     });
   }
 
-  public makePlayerOffline(name: string): void {
-    this.players.delete(name);
+  public makePlayerInActive(name: string): void {
+    const player = this.players.get(name);
+    if (!player) return;
+    player.isActive = false;
+    this.players.set(name, player);
+  }
+
+  public makePlayerActive(name: string) {
+    const player = this.players.get(name);
+    if (!player) return;
+    player.isActive = true;
+    this.players.set(name, player);
   }
 
   public deletePlayer(name: string): void {

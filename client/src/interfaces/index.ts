@@ -4,6 +4,7 @@ export interface IPlayer {
   name: string;
   total_points: number;
   color: string;
+  isActive: boolean;
 }
 
 export interface IRoom {

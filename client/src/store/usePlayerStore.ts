@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { useRoomMessagesStore } from "./useRoomMessagesStore";
 import { assignRandomColor } from "@/lib/utils";
+import { useGameRoomStore } from "./useGameRoomStore";
 
 interface PlayerState {
   name: string;
@@ -10,7 +11,7 @@ interface PlayerState {
 
 interface PlayerActions {
   setName: (name: string) => void;
-  quitGame: () => void;
+  quitGame: (callBack?: () => void) => void;
   sendMessage: (text: string) => void;
 }
 
@@ -25,7 +26,10 @@ export const usePlayerStore = create<PlayerStore>()(
       setName: (name: string) => set({ name }),
       sendMessage: (text: string) =>
         useRoomMessagesStore.getState().sendPlayerMessage(text),
-      quitGame: () => {},
+      quitGame: (callBack) => {
+        useGameRoomStore.getState().disconnectSocket();
+        callBack?.();
+      },
     }),
     { name: "player-storage", storage: createJSONStorage(() => localStorage) }
   )

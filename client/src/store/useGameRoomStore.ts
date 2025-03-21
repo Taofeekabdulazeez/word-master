@@ -7,8 +7,9 @@ const BASE_URL = "http://localhost:8000/room";
 
 export interface GameRoomStore {
   socket: Socket;
-  connectSocket: () => void;
   room: IRoom;
+  connectSocket: () => void;
+  disconnectSocket: () => void;
   setIntializeRoom: (room: IRoom) => void;
 }
 
@@ -27,8 +28,6 @@ export const useGameRoomStore = create<GameRoomStore>((set, get) => ({
     });
 
     socket.connect();
-    console.log("success has connected");
-
     set({ socket: socket });
   },
 
