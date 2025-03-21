@@ -1,7 +1,6 @@
 import { fetchRoom } from "@/server/room.actions";
 import { PageProps } from "@/types";
-import { SideBar } from "@/components/sidebar";
-import { Main } from "@/components/main";
+import { GameRoom } from "@/components/game-room";
 import { GameRoomHydration } from "./game-room-hydration";
 
 export default async function Page({ params }: PageProps) {
@@ -9,11 +8,8 @@ export default async function Page({ params }: PageProps) {
   const room = await fetchRoom(roomId);
 
   return (
-    <div className="grid grid-cols-[1.3fr_4fr] h-screen overflow-y-hidden">
-      <GameRoomHydration initialData={room}>
-        <SideBar />
-        <Main room={room} />
-      </GameRoomHydration>
-    </div>
+    <GameRoomHydration initialData={room}>
+      <GameRoom />
+    </GameRoomHydration>
   );
 }

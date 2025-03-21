@@ -1,10 +1,10 @@
 import { Container, Paper } from "@mui/material";
-import { RoomMessage } from "./room-message";
+import { GameRoomMessage } from "./game-room-message";
 import { useScrollToBottom } from "@/hooks/useScrollToBottom";
 import { useRef } from "react";
 import { useRoomMessagesStore } from "@/store/useRoomMessagesStore";
 
-export function RoomMessages() {
+export function GameRoomMessages() {
   const messages = useRoomMessagesStore((state) => state.messages);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   useScrollToBottom(messagesContainerRef, [messages]);
@@ -26,7 +26,7 @@ export function RoomMessages() {
         }}
       >
         {messages.map((message, i) => {
-          return <RoomMessage key={i} message={message} />;
+          return <GameRoomMessage key={i} message={message} />;
         })}
       </Container>
     </Paper>

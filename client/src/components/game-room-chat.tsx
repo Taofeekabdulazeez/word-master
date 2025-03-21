@@ -1,10 +1,10 @@
 "use client";
 
-import { useGameSubscriptions } from "@/store/useGameSubscriptions";
-import { RoomMessages } from "./room-messages";
+import { useGameSubscriptions } from "@/subscriptions/useGameSubscriptions";
+import { GameRoomMessages } from "./game-room-messages";
 
 export function GameRoomChat() {
   useGameSubscriptions();
 
-  return <RoomMessages />;
+  return <GameRoomMessages />;
 }

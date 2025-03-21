@@ -5,7 +5,7 @@ import { CronJob } from 'cron';
 
 @Injectable()
 export class TasksService {
-  private timer: number = 20;
+  private timer: number = 60;
 
   constructor(
     private readonly roomGateway: RoomGateway,
@@ -15,7 +15,7 @@ export class TasksService {
   @Cron('*/1 * * * * *', { name: 'startGame' })
   public startTask() {
     if (this.timer === 0) {
-      this.timer = 20;
+      this.timer = 60;
       this.roomGateway.broadCastRoundStarted();
     } else {
       this.timer--;

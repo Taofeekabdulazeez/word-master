@@ -7,7 +7,7 @@ type RoomMessageProps = {
   message: IRoomMessage;
 };
 
-export function RoomMessage({ message }: RoomMessageProps) {
+export function GameRoomMessage({ message }: RoomMessageProps) {
   switch (message.type) {
     case "bot":
       return <BotMessage message={message} />;
