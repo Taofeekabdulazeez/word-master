@@ -17,12 +17,12 @@ let TasksService = class TasksService {
     constructor(roomGateway, schedulerRegistry) {
         this.roomGateway = roomGateway;
         this.schedulerRegistry = schedulerRegistry;
-        this.timer = 20;
+        this.timer = 60;
         this.wordsGame = 'master painters';
     }
     startTask() {
         if (this.timer === 0) {
-            this.timer = 20;
+            this.timer = 60;
             this.roomGateway.broadCastRoundStarted({ words: this.wordsGame });
         }
         else {

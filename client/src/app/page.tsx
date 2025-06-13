@@ -7,12 +7,7 @@ import { usePlayerStore } from "@/store/usePlayerStore";
 
 export default function Home() {
   const { name, setName } = usePlayerStore();
-  const [response, action, isPending] = useActionState(
-    findAvailableRoom,
-    undefined
-  );
-
-  console.log(response);
+  const [, action, isPending] = useActionState(findAvailableRoom, undefined);
 
   return (
     <div>

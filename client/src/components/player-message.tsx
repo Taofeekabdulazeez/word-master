@@ -45,6 +45,9 @@ export function PlayerMessage({ message }: PlayerMessageProps) {
             >
               {message.text}
             </Box>
+            <Typography variant="caption" color="textSecondary">
+              {/* 17:01 */}
+            </Typography>
             {/* {message.isAnagram && (
               <Typography
                 fontSize="small"
