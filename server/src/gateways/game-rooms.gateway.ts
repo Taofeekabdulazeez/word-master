@@ -19,7 +19,7 @@ export class GameRoomsGateway implements OnGatewayConnection, OnGatewayDisconnec
   @WebSocketServer() private readonly server: Server;
     
   handleConnection(@ConnectedSocket() client: Socket) {
-    const {playerId, roomId} = this.getClientQueries(client);
+    const {playerId, roomId} = GameRoomsGateway.getClientQueries(client);
     this.gameRoomsService.connectPlayer(roomId, playerId);
 
     this.server.emit(GameRoomEvent.PLAYER_JOINED, 'A Player has joined the room '); 
@@ -30,7 +30,7 @@ export class GameRoomsGateway implements OnGatewayConnection, OnGatewayDisconnec
   public handleUpdate(
     @ConnectedSocket() client: Socket,
   ) {
-    const { roomId } = this.getClientQueries(client);    
+    const { roomId } = GameRoomsGateway.getClientQueries(client);    
 
     this.server.emit(GameRoomEvent.PLAYERS_UPDATE, this.gameRoomsService.getRoomPlayers(roomId));
 
@@ -41,7 +41,7 @@ export class GameRoomsGateway implements OnGatewayConnection, OnGatewayDisconnec
     @ConnectedSocket() client: Socket,
     @MessageBody() message: any,
   ) {
-    const { playerId, roomId } = this.getClientQueries(client);
+    const { playerId, roomId } = GameRoomsGateway.getClientQueries(client);
     this.gameRoomsService.sendRoomMessage(roomId, { text: message, playerId });
 
     this.server.emit(GameRoomEvent.PLAYERS_UPDATE, this.gameRoomsService.getRoomPlayers(roomId));
@@ -49,7 +49,7 @@ export class GameRoomsGateway implements OnGatewayConnection, OnGatewayDisconnec
   }
 
   handleDisconnect(@ConnectedSocket() client: Socket) {
-    const { playerId, roomId } = this.getClientQueries(client);
+    const { playerId, roomId } = GameRoomsGateway.getClientQueries(client);
     console.log(`Client disconnected: ${playerId} from room: ${roomId}`);
 
     this.gameRoomsService.disconnectPlayer(roomId, playerId);
@@ -58,7 +58,7 @@ export class GameRoomsGateway implements OnGatewayConnection, OnGatewayDisconnec
 
   }
 
-  private getClientQueries(client: Socket) {
+  private static getClientQueries(client: Socket) {
     const playerId = client.handshake.query?.['player'] as string
     const roomId = client.handshake.query?.['room'] as string
 
