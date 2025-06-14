@@ -9,6 +9,7 @@ import {
 } from '@nestjs/websockets';
 import type { Socket, Server } from 'socket.io';
 import { GameRoomsService } from '../services/game-rooms.service';
+import { GameRoomEvent } from 'src/enums';
 
 @WebSocketGateway({namespace: 'game-rooms', cors: { origin: '*' }})
 export class GameRoomsGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -21,7 +22,7 @@ export class GameRoomsGateway implements OnGatewayConnection, OnGatewayDisconnec
     const {playerId, roomId} = this.getClientQueries(client);
     this.gameRoomsService.connectPlayer(roomId, playerId);
 
-    this.server.emit('player/joined', 'A Player has joined the room '); 
+    this.server.emit(GameRoomEvent.PLAYER_JOINED, 'A Player has joined the room '); 
 
   }
 
@@ -31,7 +32,7 @@ export class GameRoomsGateway implements OnGatewayConnection, OnGatewayDisconnec
   ) {
     const { roomId } = this.getClientQueries(client);    
 
-    this.server.emit('players/update', this.gameRoomsService.getRoomPlayers(roomId));
+    this.server.emit(GameRoomEvent.PLAYERS_UPDATE, this.gameRoomsService.getRoomPlayers(roomId));
 
   }
 
@@ -43,7 +44,7 @@ export class GameRoomsGateway implements OnGatewayConnection, OnGatewayDisconnec
     const { playerId, roomId } = this.getClientQueries(client);
     this.gameRoomsService.sendRoomMessage(roomId, { text: message, playerId });
 
-    this.server.emit('players/update', this.gameRoomsService.getRoomPlayers(roomId));
+    this.server.emit(GameRoomEvent.PLAYERS_UPDATE, this.gameRoomsService.getRoomPlayers(roomId));
 
   }
 
@@ -53,7 +54,7 @@ export class GameRoomsGateway implements OnGatewayConnection, OnGatewayDisconnec
 
     this.gameRoomsService.disconnectPlayer(roomId, playerId);
 
-    this.server.emit('player/left', 'A player has left the room');
+    this.server.emit(GameRoomEvent.PLAYER_LEFT, 'A player has left the room');
 
   }
 
