@@ -8,7 +8,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import type { Socket, Server } from 'socket.io';
-import { PlayersService } from './players.service';
+import { PlayersService } from '../services/players.service';
 
 @WebSocketGateway({ namespace: 'room', cors: { origin: '*' } })
 export class RoomGateway

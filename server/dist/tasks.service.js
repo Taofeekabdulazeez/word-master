@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksService = void 0;
 const common_1 = require("@nestjs/common");
 const schedule_1 = require("@nestjs/schedule");
-const room_gateway_1 = require("./room.gateway");
+const room_gateway_1 = require("./gateways/room.gateway");
 let TasksService = class TasksService {
     constructor(roomGateway, schedulerRegistry) {
         this.roomGateway = roomGateway;

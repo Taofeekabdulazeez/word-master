@@ -8,7 +8,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import type { Socket, Server } from 'socket.io';
-import { GameRoomsService } from './game-rooms.service';
+import { GameRoomsService } from '../services/game-rooms.service';
 
 @WebSocketGateway({namespace: 'game-rooms', cors: { origin: '*' }})
 export class GameRoomsGateway implements OnGatewayConnection, OnGatewayDisconnect {

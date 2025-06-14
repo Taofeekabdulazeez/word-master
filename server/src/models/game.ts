@@ -13,7 +13,7 @@ export class Game {
     }
 
     public getPlayers(): Player[] {
-        return Array.from(this.players.values());
+        return Game.sort(Array.from(this.players.values()));
     }
 
     public addPlayer(name: string): void {
@@ -31,4 +31,8 @@ export class Game {
     public hasPlayer(name: string): boolean {
         return this.players.has(name);
     } 
+
+    public static sort(players: Player[]): Player[] {
+        return Array.from(players.values()).sort((a, b) => b.getPoints() - a.getPoints());
+    }
 }

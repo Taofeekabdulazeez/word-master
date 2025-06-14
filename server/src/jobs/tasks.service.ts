@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Cron, Interval, SchedulerRegistry, Timeout } from '@nestjs/schedule';
-import { RoomGateway } from './room.gateway';
+import { Cron, SchedulerRegistry } from '@nestjs/schedule';
+import { RoomGateway } from '../gateways/room.gateway';
 import { CronJob } from 'cron';
 
 @Injectable()

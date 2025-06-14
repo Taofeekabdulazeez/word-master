@@ -1,10 +1,11 @@
-import { Game } from "./game";
-import { Player } from "./player";
+import { Game } from "../models/game";
+import { Player } from "../models/player";
 
 export class GameRoomsService {
     private rooms: Map<string, Game> = new Map<string, Game>().set('1', new Game('1'));
 
-    public createRoom(id: string): Game {
+    public createRoom(): Game {
+        const id = String(Math.random())
         const game = new Game(id);
         this.rooms.set(id, game);
         return game;
@@ -14,7 +15,7 @@ export class GameRoomsService {
         return this.rooms.get(id);
     }
 
-    public removeRoom(id: string): void {
+    public deleteRoom(id: string): void {
         this.rooms.delete(id);
     }
 
@@ -22,8 +23,11 @@ export class GameRoomsService {
         return this.rooms.has(id);
     }
 
-    public getAllRooms(): Game[] {
-        return Array.from(this.rooms.values());
+    public getAllRooms() {
+        const rooms = Array.from(this.rooms.values());
+        const r = rooms.map(r => ({...r, players: r.getPlayers()}))
+        console.log('All Rooms:', rooms);
+        return r;
     }
 
     public connectPlayer(roomId: string, player: string): void {

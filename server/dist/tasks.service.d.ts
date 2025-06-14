@@ -1,5 +1,5 @@
 import { SchedulerRegistry } from '@nestjs/schedule';
-import { RoomGateway } from './room.gateway';
+import { RoomGateway } from './gateways/room.gateway';
 export declare class TasksService {
     private readonly roomGateway;
     private readonly schedulerRegistry;
