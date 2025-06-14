@@ -1,4 +1,4 @@
-import { Game } from "../models/game-room";
+import { GameRoom } from "../models/game-room";
 import { GameRoomsService } from "../services/game-rooms.service";
 import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 
@@ -12,12 +12,12 @@ export class GameRoomsController {
   }             
 
   @Post()
-  public createRoom(@Body() body: any): Game {
+  public createRoom(@Body() body: any): GameRoom {
     return this.gameRoomsService.createRoom();
   }
 
   @Get(':id')
-  public getRoom(id: string): Game {
+  public getRoom(id: string): GameRoom {
     return this.gameRoomsService.getRoom(id);
   }
 
