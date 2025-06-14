@@ -14,8 +14,8 @@ const schedule_1 = require("@nestjs/schedule");
 const tasks_service_1 = require("./tasks.service");
 const room_gateway_1 = require("./room.gateway");
 const players_service_1 = require("./players.service");
-const bullmq_1 = require("@nestjs/bullmq");
-const app_worker_1 = require("./app.worker");
+const game_rooms_service_1 = require("./game-rooms.service");
+const game_rooms_gateway_1 = require("./game-rooms.gateway");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -23,16 +23,9 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             schedule_1.ScheduleModule.forRoot(),
-            bullmq_1.BullModule.forRoot({
-                connection: {
-                    host: 'localhost',
-                    port: 6379,
-                },
-            }),
-            bullmq_1.BullModule.registerQueue({ name: 'new-round' }),
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService, tasks_service_1.TasksService, room_gateway_1.RoomGateway, players_service_1.PlayersService, app_worker_1.AppWorker],
+        providers: [app_service_1.AppService, tasks_service_1.TasksService, room_gateway_1.RoomGateway, players_service_1.PlayersService, game_rooms_service_1.GameRoomsService, game_rooms_gateway_1.GameRoomsGateway],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
