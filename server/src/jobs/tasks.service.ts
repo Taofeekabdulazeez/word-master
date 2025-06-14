@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, SchedulerRegistry } from '@nestjs/schedule';
 import { RoomGateway } from '../gateways/room.gateway';
-import { CronJob } from 'cron';
 
 @Injectable()
 export class TasksService {
@@ -18,8 +17,6 @@ export class TasksService {
     if (this.timer === 0) {
       this.timer = 60;
       this.roomGateway.broadCastRoundStarted({ words: this.wordsGame });
-      // const wordBot = this.schedulerRegistry.getCronJob('word-bot');
-      // wordBot.start();
     } else {
       this.timer--;
       this.roomGateway.broadCastRoundTimer(this.timer);
@@ -33,24 +30,4 @@ export class TasksService {
     console.log(gameJob.lastExecution);
   }
 
-  //   @Cron('*/30 * * * * *', { name: 'startGame' })
-  //   public startTask() {
-  //     this.roomGateway.broadCastRoundStarted();
-  //   }
-
-  //   @Cron('*/29 * * * * *', { name: 'endGame' })
-  //   public endTask() {
-  //     this.roomGateway.broadCastRoundEnded();
-  //   }
-
-  //   @Timeout(3000)
-  //   public notify() {
-  //     this.roomGateway.notifyNextRound();
-  //   }
-
-  //   @Cron('*/10 * * * * *', { name: 'timer', disabled: false })
-  //   public startTimer() {
-  //     const interval = this.schedulerRegistry.getCronJob('startGame');
-  //     console.log('Timer is running', interval.waitForCompletion);
-  //   }
 }
