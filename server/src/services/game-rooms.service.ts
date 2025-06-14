@@ -1,17 +1,17 @@
-import { Game } from "../models/game";
+import { GameRoom } from "../models/game-room";
 import { Player } from "../models/player";
 
 export class GameRoomsService {
-    private rooms: Map<string, Game> = new Map<string, Game>().set('1', new Game('1'));
+    private rooms: Map<string, GameRoom> = new Map<string, GameRoom>().set('1', new GameRoom('1'));
 
-    public createRoom(): Game {
+    public createRoom(): GameRoom {
         const id = String(Math.random())
-        const game = new Game(id);
+        const game = new GameRoom(id);
         this.rooms.set(id, game);
         return game;
     }
 
-    public getRoom(id: string): Game {
+    public getRoom(id: string): GameRoom {
         return this.rooms.get(id);
     }
 

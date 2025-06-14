@@ -1,4 +1,4 @@
-import { Game } from "../models/game";
+import { Game } from "../models/game-room";
 import { GameRoomsService } from "../services/game-rooms.service";
 import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 

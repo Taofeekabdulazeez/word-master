@@ -1,19 +1,19 @@
 import { Player } from "./player";
 
-export class Game {
+export class GameRoom {
     private id: string;
     private players: Map<string, Player> = new Map();
 
     constructor(id: string) {
         this.id = id;
-    }
+    } 
 
     public getId(): string {
         return this.id;
     }
 
     public getPlayers(): Player[] {
-        return Game.sort(Array.from(this.players.values()));
+        return GameRoom.sort(Array.from(this.players.values()));
     }
 
     public addPlayer(name: string): void {
