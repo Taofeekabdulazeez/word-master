@@ -4,10 +4,12 @@ import ModeSwitch from "@/components/mode-switch";
 import { startTransition, useActionState } from "react";
 import { findAvailableRoom } from "@/server/room.actions";
 import { usePlayerStore } from "@/store/usePlayerStore";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const { name, setName } = usePlayerStore();
   const [, action, isPending] = useActionState(findAvailableRoom, undefined);
+  const router = useRouter();
 
   return (
     <div>
@@ -32,7 +34,7 @@ export default function Home() {
           disabled={isPending}
           loading={isPending}
           variant="contained"
-          onClick={() => startTransition(action)}
+          onClick={() => router.push("/rooms")}
         >
           Play Now!
         </Button>

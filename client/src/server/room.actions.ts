@@ -14,12 +14,12 @@ export const fetchRoom = async (id: string): Promise<IRoom> => {
     players: [],
   };
   //   players: new Map()
-  //     .set("Henry", { name: "Henry", total_points: 354 })
-  //     .set("James", { name: "James", total_points: 312 })
-  //     .set("Sofie", { name: "Sofie", total_points: 289 })
-  //     .set("Scott", { name: "Scott", total_points: 265 })
-  //     .set("Evelyn", { name: "Evelyn", total_points: 231 })
-  //     .set("Dave", { name: "Dave", total_points: 192 }),
+  //     .set("Henry", { name: "Henry", points: 354 })
+  //     .set("James", { name: "James", points: 312 })
+  //     .set("Sofie", { name: "Sofie", points: 289 })
+  //     .set("Scott", { name: "Scott", points: 265 })
+  //     .set("Evelyn", { name: "Evelyn", points: 231 })
+  //     .set("Dave", { name: "Dave", points: 192 }),
 };
 
 export const findAvailableRoom = async () => {
@@ -35,4 +35,11 @@ export const findAvailableRoom = async () => {
   // return {
   //   id: roomId,
   // };
+};
+
+export const fetchAvailableGameRooms = async () => {
+  const response = await fetch(`http://localhost:8000/game-rooms`);
+  const data = await response.json();
+
+  return data;
 };

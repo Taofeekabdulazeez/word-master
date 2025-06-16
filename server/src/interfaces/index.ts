@@ -1,6 +1,11 @@
 export interface Player {
   name: string;
-  total_points: number;
+  points: number;
   color: string;
   isActive: boolean;
+}
+
+export interface ClientQueries {
+  playerId: string;
+  roomId: string;
 }

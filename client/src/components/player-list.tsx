@@ -49,15 +49,16 @@ const colors = new Map()
 
 export default function PlayerList() {
   const players = usePlayersStore((state) => state.players);
-  const sortedPlayers = React.useMemo(
-    () => players.sort((a, b) => b.total_points - a.total_points),
-    [players]
-  );
+  // const sortedPlayers = React.useMemo(
+  //   () => players.sort((a, b) => b.points - a.points),
+  //   [players]
+  // );
+  console.log(players);
 
   return (
     <Box sx={{ overflow: "auto", maxHeight: "100vh" }}>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        {sortedPlayers.map((player, i) => {
+        {players.map((player, i) => {
           return (
             <ListItem key={i}>
               <ListItemAvatar>
@@ -75,7 +76,7 @@ export default function PlayerList() {
               </ListItemAvatar>
               <ListItemText
                 primary={player.name}
-                secondary={player.total_points + " points"}
+                secondary={player.points + " points"}
                 color={yellow[900]}
               />
             </ListItem>

@@ -2,7 +2,7 @@
 
 export interface IPlayer {
   name: string;
-  total_points: number;
+  points: number;
   color: string;
   isActive: boolean;
 }

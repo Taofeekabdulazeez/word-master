@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { usePlayerStore } from "./usePlayerStore";
 import { IRoom } from "@/interfaces";
 
-const BASE_URL = "http://localhost:8000/room";
+const BASE_URL = "http://localhost:8000/game-rooms";
 
 export interface GameRoomStore {
   socket: Socket;
@@ -24,6 +24,7 @@ export const useGameRoomStore = create<GameRoomStore>((set, get) => ({
       query: {
         player: usePlayerStore.getState().name,
         color: usePlayerStore.getState().color,
+        room: "1",
       },
     });
 

@@ -16,7 +16,7 @@ export class PlayersService {
     }
     this.players.set(name, {
       name,
-      total_points: 0,
+      points: 0,
       color,
       isActive: true,
     });
@@ -43,7 +43,7 @@ export class PlayersService {
   public updatePlayerPoints(name: string, points: number): void {
     const player = this.players.get(name);
     if (!player) return;
-    player.total_points += points;
+    player.points += points;
     this.players.set(name, player);
   }
 
