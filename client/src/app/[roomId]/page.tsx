@@ -6,6 +6,7 @@ import { GameRoomHydration } from "./game-room-hydration";
 export default async function Page({ params }: PageProps) {
   const { roomId } = await params;
   const room = await fetchRoom(roomId);
+  console.log({ room });
 
   return (
     <GameRoomHydration initialData={room}>

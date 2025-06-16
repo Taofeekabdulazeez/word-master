@@ -65,7 +65,7 @@ export default function PlayerList() {
                 <StyledBadge
                   overlap="circular"
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                  variant={player.isActive ? "dot" : "standard"}
+                  variant={player.active ? "dot" : "standard"}
                 >
                   <Avatar
                     sx={{ bgcolor: player.color, textTransform: "uppercase" }}

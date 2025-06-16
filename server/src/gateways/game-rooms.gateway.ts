@@ -28,6 +28,10 @@ export class GameRoomsGateway
       GameRoomEvent.PLAYER_JOINED,
       'A Player has joined the room ',
     );
+    this.server.emit(
+      GameRoomEvent.PLAYERS_UPDATE,
+      this.gameRoomsService.getRoomPlayers(roomId),
+    );
   }
 
   @SubscribeMessage('players/update')
@@ -65,6 +69,10 @@ export class GameRoomsGateway
     this.gameRoomsService.disconnectPlayer(roomId, playerId);
 
     this.server.emit(GameRoomEvent.PLAYER_LEFT, 'A player has left the room');
+    this.server.emit(
+      GameRoomEvent.PLAYERS_UPDATE,
+      this.gameRoomsService.getRoomPlayers(roomId),
+    );
   }
 
   private static getClientQueries(client: Socket): ClientQueries {
