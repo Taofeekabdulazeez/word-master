@@ -11,6 +11,7 @@ import type { Socket, Server } from 'socket.io';
 import { GameRoomsService } from '../services/game-rooms.service';
 import { GameRoomEvent } from 'src/enums';
 import { ClientQueries } from 'src/interfaces';
+import { Logger } from '@nestjs/common';
 
 @WebSocketGateway({ namespace: 'game-rooms', cors: { origin: '*' } })
 export class GameRoomsGateway
@@ -18,11 +19,14 @@ export class GameRoomsGateway
 {
   constructor(private readonly gameRoomsService: GameRoomsService) {}
 
+  private readonly logger: Logger = new Logger();
+
   @WebSocketServer() private readonly server: Server;
 
   handleConnection(@ConnectedSocket() client: Socket) {
     const { playerId, roomId } = GameRoomsGateway.getClientQueries(client);
     this.gameRoomsService.connectPlayer(roomId, playerId);
+    this.logger.log(`${playerId} connected to room: ${roomId}`);
 
     this.server.emit(
       GameRoomEvent.PLAYER_JOINED,
@@ -65,6 +69,7 @@ export class GameRoomsGateway
   handleDisconnect(@ConnectedSocket() client: Socket) {
     const { playerId, roomId } = GameRoomsGateway.getClientQueries(client);
     console.log(`Client disconnected: ${playerId} from room: ${roomId}`);
+    this.logger.warn(`${playerId} disconnected from room: ${roomId}`);
 
     this.gameRoomsService.disconnectPlayer(roomId, playerId);
 
