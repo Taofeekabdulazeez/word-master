@@ -43,7 +43,7 @@ export class GameRoomsService {
     const room = this.getRoom(roomId);
     if (!room.hasPlayer(playerId)) return;
 
-    room.getPlayer(playerId).deActivate();
+    room.getPlayer(playerId).deactivate();
   }
 
   public sendRoomMessage(

@@ -1,62 +1,61 @@
 export class Player {
-    private name: string;
-    private points: number;
-    private color: string;
-    private active: boolean;
+  private name: string;
+  private points: number;
+  private color: string;
+  private active: boolean;
 
-    constructor(name: string) {
-        this.name = name;
-        this.points = 0;
-        this.active = true;
-        this.color = Player.getRandomColor();
-    }
+  constructor(name: string) {
+    this.name = name;
+    this.points = 0;
+    this.active = true;
+    this.color = Player.getRandomColor();
+  }
 
-    public setName(name: string): void {
-        this.name = name;
-    }
+  public setName(name: string): void {
+    this.name = name;
+  }
 
-    public getName(): string {
-        return this.name
-    }
+  public getName(): string {
+    return this.name;
+  }
 
-    public getPoints(): number {
-        return this.points;
-    }
+  public getPoints(): number {
+    return this.points;
+  }
 
-    public setPoints(points: number): void {
-        this.points = points;     
-    }
+  public setPoints(points: number): void {
+    this.points = points;
+  }
 
-    public addPoints(points: number): void {
-        this.points += points;    
-    }
+  public addPoints(points: number): void {
+    this.points += points;
+  }
 
-    public subtractPoints(points: number): void {
-        this.points -= points;    
-    }
+  public subtractPoints(points: number): void {
+    this.points -= points;
+  }
 
-    public isActive(): boolean {
-        return this.active;
-    }
-    
-    public activate(): void {
-        this.active = true;
-    }
+  public isActive(): boolean {
+    return this.active;
+  }
 
-    public deActivate(): void {
-        this.active = false;
-    }
+  public activate(): void {
+    this.active = true;
+  }
 
-    public setColor(color: string): void {
-        this.color = color;
-    }
+  public deactivate(): void {
+    this.active = false;
+  }
 
-    public getColor(): string {
-        return this.color;
-    }
+  public setColor(color: string): void {
+    this.color = color;
+  }
 
+  public getColor(): string {
+    return this.color;
+  }
 
-    private static getRandomColor(): string {
+  private static getRandomColor(): string {
     const colors = [
       '#ff5722',
       '#673ab7',
@@ -67,6 +66,4 @@ export class Player {
     ];
     return colors[Math.floor(Math.random() * colors.length)];
   }
-
 }
-                    

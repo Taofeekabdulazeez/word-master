@@ -7,6 +7,13 @@ export interface IPlayer {
   active: boolean;
 }
 
+export enum MessageType {
+  BOT = "message",
+  WORD = "word",
+  NOTIFICATION = "notification",
+  PLAYER = "player",
+}
+
 export interface IRoom {
   id: string;
   title: string;

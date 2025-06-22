@@ -49,11 +49,6 @@ const colors = new Map()
 
 export default function PlayerList() {
   const players = usePlayersStore((state) => state.players);
-  // const sortedPlayers = React.useMemo(
-  //   () => players.sort((a, b) => b.points - a.points),
-  //   [players]
-  // );
-  console.log(players);
 
   return (
     <Box sx={{ overflow: "auto", maxHeight: "100vh" }}>

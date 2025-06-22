@@ -17,7 +17,7 @@ export const useGameRoomStore = create<GameRoomStore>((set, get) => ({
   socket: null!,
   room: null!,
 
-  setIntializeRoom: (room: IRoom) => set({ room: room }),
+  setIntializeRoom: (room: IRoom) => set({ room }),
 
   connectSocket: () => {
     const socket = io(`${BASE_URL}`, {

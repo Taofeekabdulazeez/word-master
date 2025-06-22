@@ -16,7 +16,7 @@ import { MessagePayload } from 'src/types';
 
 @WebSocketGateway({ namespace: 'game-rooms', cors: { origin: '*' } })
 export class GameRoomsGateway
-  implements OnGatewayConnection, OnGatewayDisconnect
+  implements OnGatewayConnection<Socket>, OnGatewayDisconnect<Socket>
 {
   constructor(private readonly gameRoomsService: GameRoomsService) {}
 
@@ -24,61 +24,58 @@ export class GameRoomsGateway
 
   @WebSocketServer() private readonly server: Server;
 
-  handleConnection(@ConnectedSocket() client: Socket) {
+  public async handleConnection(@ConnectedSocket() client: Socket) {
     const { playerId, roomId } = GameRoomsGateway.getClientQueries(client);
     this.gameRoomsService.connectPlayer(roomId, playerId);
     this.logger.log(`${playerId} connected to room: ${roomId}`);
 
     this.server.emit(
       GameRoomEvent.PLAYER_JOINED,
-      'A Player has joined the room ',
+      `${playerId} has joined the room `,
     );
-    this.server.emit(
-      GameRoomEvent.PLAYERS_UPDATE,
-      this.gameRoomsService.getRoomPlayers(roomId),
-    );
+
+    const players = this.gameRoomsService.getRoomPlayers(roomId);
+
+    this.server.emit(GameRoomEvent.PLAYERS_UPDATE, players);
   }
 
   @SubscribeMessage('players/update')
-  public handleUpdate(@ConnectedSocket() client: Socket) {
+  public async handlePlayersUpdate(@ConnectedSocket() client: Socket) {
     const { roomId } = GameRoomsGateway.getClientQueries(client);
 
-    this.server.emit(
-      GameRoomEvent.PLAYERS_UPDATE,
-      this.gameRoomsService.getRoomPlayers(roomId),
-    );
+    const players = this.gameRoomsService.getRoomPlayers(roomId);
+    this.server.emit(GameRoomEvent.PLAYERS_UPDATE, players);
   }
 
   @SubscribeMessage('player/message')
-  public handleMessage(
+  public async handlePlayerMessage(
     @ConnectedSocket() client: Socket,
     @MessageBody() message: MessagePayload,
   ) {
     const { playerId, roomId } = GameRoomsGateway.getClientQueries(client);
-    client.broadcast.emit('player/message', message);
+    client.broadcast.emit(GameRoomEvent.PLAYERS_MESSAGE, message);
+
     this.gameRoomsService.sendRoomMessage(roomId, {
       text: message.text,
       playerId,
     });
 
-    this.server.emit(
-      GameRoomEvent.PLAYERS_UPDATE,
-      this.gameRoomsService.getRoomPlayers(roomId),
-    );
+    const players = this.gameRoomsService.getRoomPlayers(roomId);
+
+    this.server.emit(GameRoomEvent.PLAYERS_UPDATE, players);
   }
 
-  handleDisconnect(@ConnectedSocket() client: Socket) {
+  public async handleDisconnect(@ConnectedSocket() client: Socket) {
     const { playerId, roomId } = GameRoomsGateway.getClientQueries(client);
-    console.log(`Client disconnected: ${playerId} from room: ${roomId}`);
+
     this.logger.warn(`${playerId} disconnected from room: ${roomId}`);
 
     this.gameRoomsService.disconnectPlayer(roomId, playerId);
 
     this.server.emit(GameRoomEvent.PLAYER_LEFT, 'A player has left the room');
-    this.server.emit(
-      GameRoomEvent.PLAYERS_UPDATE,
-      this.gameRoomsService.getRoomPlayers(roomId),
-    );
+
+    const players = this.gameRoomsService.getRoomPlayers(roomId);
+    this.server.emit(GameRoomEvent.PLAYERS_UPDATE, players);
   }
 
   private static getClientQueries(client: Socket): ClientQueries {
