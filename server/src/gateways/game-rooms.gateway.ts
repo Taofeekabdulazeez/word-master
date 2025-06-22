@@ -12,6 +12,7 @@ import { GameRoomsService } from '../services/game-rooms.service';
 import { GameRoomEvent } from 'src/enums';
 import { ClientQueries } from 'src/interfaces';
 import { Logger } from '@nestjs/common';
+import { MessagePayload } from 'src/types';
 
 @WebSocketGateway({ namespace: 'game-rooms', cors: { origin: '*' } })
 export class GameRoomsGateway
@@ -51,7 +52,7 @@ export class GameRoomsGateway
   @SubscribeMessage('player/message')
   public handleMessage(
     @ConnectedSocket() client: Socket,
-    @MessageBody() message: any,
+    @MessageBody() message: MessagePayload,
   ) {
     const { playerId, roomId } = GameRoomsGateway.getClientQueries(client);
     client.broadcast.emit('player/message', message);
