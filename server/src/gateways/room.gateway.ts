@@ -66,7 +66,7 @@ export class RoomGateway
     this.server.emit('players/update', players);
   }
 
-  handleConnection(@ConnectedSocket() client: Socket) {
+  public handleConnection(@ConnectedSocket() client: Socket) {
     const player = client.handshake.query?.['player'] as string;
     const color = client.handshake.query?.['color'] as string;
     const message = `${player} has joined the room`;
@@ -77,7 +77,7 @@ export class RoomGateway
     this.server.emit('players/update', players);
   }
 
-  handleDisconnect(@ConnectedSocket() client: Socket) {
+  public handleDisconnect(@ConnectedSocket() client: Socket) {
     const player = client.handshake.query?.['player'] as string;
     const message = `${player} has left the room`;
     console.log(message);
