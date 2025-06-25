@@ -4,11 +4,11 @@ export class Player {
   private color: string;
   private active: boolean;
 
-  constructor(name: string) {
+  constructor(name: string, color: string) {
     this.name = name;
     this.points = 0;
     this.active = true;
-    this.color = Player.getRandomColor();
+    this.color = color || Player.getRandomColor();
   }
 
   public setName(name: string): void {

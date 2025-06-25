@@ -8,4 +8,5 @@ export interface Player {
 export interface ClientQueries {
   playerId: string;
   roomId: string;
+  color: string;
 }

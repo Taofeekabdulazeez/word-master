@@ -49,6 +49,7 @@ const colors = new Map()
 
 export default function PlayerList() {
   const players = usePlayersStore((state) => state.players);
+  console.log(players);
 
   return (
     <Box sx={{ overflow: "auto", maxHeight: "100vh" }}>

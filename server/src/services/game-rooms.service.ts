@@ -33,9 +33,9 @@ export class GameRoomsService {
     return r;
   }
 
-  public connectPlayer(roomId: string, player: string): void {
+  public connectPlayer(roomId: string, player: string, color: string): void {
     const room = this.getRoom(roomId);
-    if (!room.hasPlayer(player)) room.addPlayer(player);
+    if (!room.hasPlayer(player)) room.addPlayer(player, color);
     else room.getPlayer(player).activate();
   }
 

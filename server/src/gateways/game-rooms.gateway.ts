@@ -25,8 +25,10 @@ export class GameRoomsGateway
   @WebSocketServer() private readonly server: Server;
 
   public async handleConnection(@ConnectedSocket() client: Socket) {
-    const { playerId, roomId } = GameRoomsGateway.getClientQueries(client);
-    this.gameRoomsService.connectPlayer(roomId, playerId);
+    const { playerId, roomId, color } =
+      GameRoomsGateway.getClientQueries(client);
+    this.gameRoomsService.connectPlayer(roomId, playerId, color);
+
     this.logger.log(`${playerId} connected to room: ${roomId}`);
 
     this.server.emit(
@@ -53,6 +55,7 @@ export class GameRoomsGateway
     @MessageBody() message: MessagePayload,
   ) {
     const { playerId, roomId } = GameRoomsGateway.getClientQueries(client);
+
     client.broadcast.emit(GameRoomEvent.PLAYERS_MESSAGE, message);
 
     this.gameRoomsService.sendRoomMessage(roomId, {
@@ -81,7 +84,8 @@ export class GameRoomsGateway
   private static getClientQueries(client: Socket): ClientQueries {
     const playerId = client.handshake.query?.['player'] as string;
     const roomId = client.handshake.query?.['room'] as string;
+    const color = client.handshake.query?.['color'] as string;
 
-    return { playerId, roomId };
+    return { playerId, roomId, color };
   }
 }

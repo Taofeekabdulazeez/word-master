@@ -16,8 +16,8 @@ export class GameRoom {
     return GameRoom.sort(Array.from(this.players.values()));
   }
 
-  public addPlayer(id: string): void {
-    this.players.set(id, new Player(id));
+  public addPlayer(id: string, color: string): void {
+    this.players.set(id, new Player(id, color));
   }
 
   public getPlayer(id: string): Player {
