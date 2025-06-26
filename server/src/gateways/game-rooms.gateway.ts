@@ -75,7 +75,10 @@ export class GameRoomsGateway
 
     this.gameRoomsService.disconnectPlayer(roomId, playerId);
 
-    this.server.emit(GameRoomEvent.PLAYER_LEFT, 'A player has left the room');
+    this.server.emit(
+      GameRoomEvent.PLAYER_LEFT,
+      `${playerId} has left the room`,
+    );
 
     const players = this.gameRoomsService.getRoomPlayers(roomId);
     this.server.emit(GameRoomEvent.PLAYERS_UPDATE, players);
