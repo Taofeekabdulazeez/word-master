@@ -20,7 +20,7 @@ export class GameRoomsGateway
 {
   constructor(private readonly gameRoomsService: GameRoomsService) {}
 
-  private readonly logger: Logger = new Logger();
+  private readonly logger: Logger = new Logger(GameRoomsGateway.name);
 
   @WebSocketServer() private readonly server: Server;
 
@@ -90,5 +90,9 @@ export class GameRoomsGateway
     const color = client.handshake.query?.['color'] as string;
 
     return { playerId, roomId, color };
+  }
+
+  public broadcastNewRound() {
+    this.server.emit('round/started', 'word master');
   }
 }
