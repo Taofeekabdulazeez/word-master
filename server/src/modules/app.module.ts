@@ -5,10 +5,17 @@ import { GameRoomsService } from '../services/game-rooms.service';
 import { GameRoomsGateway } from '../gateways/game-rooms.gateway';
 import { GameRoomsController } from '../controllers/game-rooms.controller';
 import { GameJobs } from 'src/jobs/game.jobs';
+import { WordsService } from 'src/services/words.service';
 
 @Module({
   imports: [ScheduleModule.forRoot()],
   controllers: [GameRoomsController],
-  providers: [PlayersService, GameRoomsService, GameRoomsGateway, GameJobs],
+  providers: [
+    PlayersService,
+    GameRoomsService,
+    WordsService,
+    GameRoomsGateway,
+    GameJobs,
+  ],
 })
 export class AppModule {}

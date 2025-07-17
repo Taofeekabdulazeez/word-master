@@ -93,6 +93,9 @@ export class GameRoomsGateway
   }
 
   public broadcastNewRound() {
-    this.server.emit('round/started', 'word master');
+    this.gameRoomsService.setNewRounds();
+    this.server.emit('round/started', {
+      words: this.gameRoomsService.getRoom('1').getWords(),
+    });
   }
 }

@@ -3,6 +3,8 @@ import { Player } from './player';
 export class GameRoom {
   private id: string;
   private players: Map<string, Player> = new Map();
+  private rounds: number = 0;
+  private words: string;
 
   constructor(id: string) {
     this.id = id;
@@ -36,5 +38,25 @@ export class GameRoom {
     return Array.from(players.values()).sort(
       (a, b) => b.getPoints() - a.getPoints(),
     );
+  }
+
+  public incrementRound(): void {
+    this.rounds++;
+  }
+
+  public setRounds(rounds: number): void {
+    this.rounds = rounds;
+  }
+
+  public getRounds(): number {
+    return this.rounds;
+  }
+
+  public setWords(words: string): void {
+    this.words = words;
+  }
+
+  public getWords(): string {
+    return this.words;
   }
 }

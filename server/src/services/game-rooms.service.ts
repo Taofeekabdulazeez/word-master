@@ -1,7 +1,12 @@
+import { Injectable } from '@nestjs/common';
 import { GameRoom } from '../models/game-room';
 import { Player } from '../models/player';
+import { WordsService } from './words.service';
 
+@Injectable()
 export class GameRoomsService {
+  constructor(private readonly wordsService: WordsService) {}
+
   private rooms: Map<string, GameRoom> = new Map<string, GameRoom>().set(
     '1',
     new GameRoom('1'),
@@ -60,5 +65,13 @@ export class GameRoomsService {
     const room = this.getRoom(roomId);
     if (!room) return [];
     return room.getPlayers();
+  }
+
+  public setNewRounds(): void {
+    for (const [key] of this.rooms) {
+      const room = this.rooms.get(key);
+      room.setWords(this.wordsService.getRandomWord());
+      room.incrementRound();
+    }
   }
 }

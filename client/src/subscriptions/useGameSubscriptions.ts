@@ -20,8 +20,9 @@ export function useGameSubscriptions() {
     socket,
     event: GameEvent.ROUND_STARTED,
     onEmitted: (response) => {
+      console.log(response);
       setWords(response.words);
-      addBotMessage("Round has started");
+      addBotMessage(`Round has started: Words are ${response.words}`);
     },
   });
 

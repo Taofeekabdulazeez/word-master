@@ -11,7 +11,7 @@ export class GameJobs {
     private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
 
-  @Cron(CronExpression.EVERY_5_MINUTES, { name: 'startGame' })
+  @Cron(CronExpression.EVERY_30_SECONDS, { name: 'startGame' })
   public startNewRound() {
     this.logger.log('New round started');
     this.gameRoomsGateway.broadcastNewRound();
