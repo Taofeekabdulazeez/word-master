@@ -12,11 +12,11 @@ export const useGameRoundStore = create<GameRoundStore>()(
   persist(
     (set) => ({
       words: "",
-      timer: 60,
+      timer: 30,
 
       setWords: (words: string) => set({ words }),
       setTimer: (timer: number) => set({ timer }),
     }),
-    { name: 'game-round', storage: createJSONStorage(() => localStorage) }
+    { name: "game-round", storage: createJSONStorage(() => localStorage) }
   )
 );

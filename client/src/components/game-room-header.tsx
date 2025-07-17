@@ -4,6 +4,7 @@ import { useGameRoundStore } from "@/store/useGameRoundStore";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { Button, Container, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { GameTimer } from "./game-timer";
 
 export function GameRoomHeader() {
   const room = useGameRoomStore((state) => state?.room);
@@ -21,13 +22,11 @@ export function GameRoomHeader() {
         justifyContent: "space-between",
       }}
     >
-      <Typography variant="h6" align="center">
-        {room?.title}
-      </Typography>
+      <Typography align="center">Room {room.id}</Typography>
       <Typography variant="h6" align="center">
         {words}
       </Typography>
-      <Typography>{timer || null}</Typography>
+      <GameTimer time={timer} />
       <Button
         size="small"
         variant="contained"
