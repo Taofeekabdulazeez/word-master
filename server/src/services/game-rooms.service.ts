@@ -58,7 +58,15 @@ export class GameRoomsService {
     const room = this.getRoom(roomId);
     if (!room) return;
     const player = room.getPlayer(message.playerId);
-    player.addPoints(message.text.length);
+
+    if (room.isGuessedWord(message.text)) {
+      return;
+    }
+
+    if (this.wordsService.isAnagram(message.text, room.getWords())) {
+      room.addGuessedWords(message.text);
+      player.addPoints(message.text.length);
+    }
   }
 
   public getRoomPlayers(roomId: string): Player[] {
@@ -71,6 +79,7 @@ export class GameRoomsService {
     for (const [key] of this.rooms) {
       const room = this.rooms.get(key);
       room.setWords(this.wordsService.getRandomWord());
+      room.resetGuessedWords();
       room.incrementRound();
     }
   }

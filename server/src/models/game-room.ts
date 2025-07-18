@@ -5,6 +5,7 @@ export class GameRoom {
   private players: Map<string, Player> = new Map();
   private rounds: number = 0;
   private words: string;
+  private guessedWords: Array<string> = [];
 
   constructor(id: string) {
     this.id = id;
@@ -58,5 +59,22 @@ export class GameRoom {
 
   public getWords(): string {
     return this.words;
+  }
+
+  public getGuessedWords(): string[] {
+    return this.guessedWords;
+  }
+
+  public addGuessedWords(words: string): void {
+    this.guessedWords.push(words);
+  }
+
+  public isGuessedWord(word: string): boolean {
+    console.log(this.guessedWords);
+    return this.guessedWords.includes(word);
+  }
+
+  public resetGuessedWords(): void {
+    this.guessedWords = [];
   }
 }

@@ -22,7 +22,7 @@ export function GameRoomHeader() {
         justifyContent: "space-between",
       }}
     >
-      <Typography align="center">Room {room.id}</Typography>
+      <Typography align="center">Room {room?.id}</Typography>
       <Typography variant="h6" align="center">
         {words}
       </Typography>
