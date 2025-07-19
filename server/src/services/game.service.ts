@@ -22,7 +22,7 @@ export class GameService {
       this.timer--;
       if (this.timer <= 0) {
         clearInterval(countdownInterval);
-        console.log('Game will restart in 10secs');
+        console.log('Game will restart in 60 seconds');
       }
       console.log(this.timer);
     }, 1000);
